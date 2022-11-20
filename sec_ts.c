@@ -5779,10 +5779,6 @@ static void sec_ts_suspend_work(struct work_struct *work)
 			  __func__);
 		return;
 	}
-#ifdef CONFIG_UCI
-	pr_info("%s uci screen state call %d... \n",__func__,0);
-	uci_screen_state(0);
-#endif
 
 	mutex_lock(&ts->device_mutex);
 	/*
@@ -5833,6 +5829,10 @@ static void sec_ts_suspend_work(struct work_struct *work)
 
 	sec_ts_hc_dump(ts);
 	sec_ts_debug_dump(ts);
+#ifdef CONFIG_UCI
+	pr_info("%s uci screen state call %d... \n",__func__,0);
+	uci_screen_state(0);
+#endif
 }
 
 static void sec_ts_resume_work(struct work_struct *work)
@@ -5868,10 +5868,6 @@ static void sec_ts_resume_work(struct work_struct *work)
 		mutex_unlock(&ts->device_mutex);
 		return;
 	}
-#ifdef CONFIG_UCI
-	pr_info("%s uci screen state call %d... \n",__func__,1);
-	uci_screen_state(2);
-#endif
 
 	sec_ts_locked_release_all_finger(ts);
 
@@ -6025,6 +6021,10 @@ static void sec_ts_resume_work(struct work_struct *work)
 	complete_all(&ts->bus_resumed);
 
 	mutex_unlock(&ts->device_mutex);
+#ifdef CONFIG_UCI
+	pr_info("%s uci screen state call %d... \n",__func__,1);
+	uci_screen_state(2);
+#endif
 }
 
 #ifdef USE_CHARGER_WORK
